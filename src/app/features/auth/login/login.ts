@@ -1,8 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Header } from '../../../shared/components/header/header';
 import { Footer } from '../../../shared/components/footer/footer';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +18,9 @@ import { Footer } from '../../../shared/components/footer/footer';
   styleUrl: './login.css',
 })
 export class Login {
-  private readonly fb = inject(FormBuilder);
+  private readonly fb          = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router      = inject(Router);
 
   errorMessage = '';
   isLoading    = false;
@@ -32,9 +36,29 @@ export class Login {
   }
 
   onSubmit(): void {
+    // Si le formulaire est invalide, on arrête tout
     if (this.form.invalid) return;
 
-    this.isLoading = true;
+    // On active le spinner de chargement
+    this.isLoading    = true;
+    this.errorMessage = '';
+
+    // On appelle le service avec les valeurs du formulaire
+    this.authService.login({
+      email   : this.form.value.email!,
+      password: this.form.value.password!
+    }).subscribe({
+      // Succès
+      next: () => {
+        this.isLoading = false;
+        this.router.navigate(['/dashboard']);
+      },
+      // Erreur
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.message ?? 'Email ou mot de passe incorrect.';
+      }
+    })
 
     console.log('Formulaire soumis: ', this.form.value);
 

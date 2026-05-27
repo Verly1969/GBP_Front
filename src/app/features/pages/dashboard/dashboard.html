@@ -1,0 +1,50 @@
+<app-header />
+
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50
+            flex flex-col items-center justify-center px-4">
+
+  <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md
+              border border-gray-100 text-center">
+
+    <!-- Icône succès -->
+    <div class="bg-green-100 rounded-full p-4 w-16 h-16
+                flex items-center justify-center mx-auto mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg"
+           class="h-8 w-8 text-green-600"
+           fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+    </div>
+
+    <!-- Message de bienvenue -->
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">
+      Bienvenue !
+    </h2>
+
+    <!-- Affiche le prénom et nom depuis le signal -->
+    @if (currentUser()) {
+      <p class="text-gray-500 mb-6">
+        Connecté en tant que
+        <span class="font-medium text-blue-600">
+          {{ currentUser()!.firstName }} {{ currentUser()!.lastName }}
+        </span>
+      </p>
+      <!-- <p class="text-sm text-gray-400 mb-8">
+        Rôle : {{ currentUser()!.role }}
+      </p> -->
+    }
+
+    <!-- Bouton logout -->
+    <button
+      (click)="logout()"
+      class="bg-red-500 hover:bg-red-600 text-white
+             font-medium px-6 py-2.5 rounded-xl
+             transition duration-200 text-sm">
+      Se déconnecter
+    </button>
+
+  </div>
+</div>
+
+<app-footer />
