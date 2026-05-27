@@ -22,7 +22,7 @@ export class AuthService {
 
   login(request: LoginRequest) {
     return this.http
-      .post<LoginResponse>('${this.apiUrl}/Auth/login', request)
+      .post<LoginResponse>(`${ this.apiUrl }/Auth/login`, request)
       .pipe(
         tap(response => {
           this.currentUser.set(response);
