@@ -1,0 +1,144 @@
+<!-- Header partagé -->
+<app-header />
+
+<!-- Page principale -->
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50
+            flex flex-col items-center justify-center px-4">
+
+    <!-- carte blanche du formulaire -->
+    <div class="bg-white rounded-2x1 shadow-xl p-8 w-full max-w-md border border-gray-100">
+
+        <!-- titre -->
+        <div class="text-center mb-8">
+            <h2 class="text-2x1 font-bold text-gray-800">Connexion</h2>
+            <p class="text-gray-500 text-sm mt-1">
+                Accéder à votre espace personnel
+            </p>
+        </div>
+
+        <!-- Message d'erreur global (affiché uniquement si errorMessage n'est pas vide) -->
+        @if (errorMessage) {
+            <div class="bg-red-50 border border-red-200 text-red-600
+                        px-4 py-3 rounded-lg mb-6 text-sm">
+                {{ errorMessage }}
+            </div>
+        }
+
+        <!-- Formulaire -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+            <!-- Champ Email -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">
+                    Adresse email:
+                </label>
+                <input
+                    id="email"
+                    type="email"
+                    formControlName="email" 
+                    placeholder="exemple@email.com"
+                    class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                           transition duration-200 focus:ring-2 focus:ring-blue-500
+                           focus:border-transparent placeholder:text-gray-400
+                           border-gray-300 hover:border-gray-400"
+                />
+
+                <!-- Message d'erreur email -->
+                @if (emailErrors) {
+                    <p class="text-red-500 text-xs mt-1.5">
+                        {{ emailErrors }}
+                    </p>
+                }
+            </div>
+
+            <!-- Champ Password -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">
+                    Mot de passe:
+                </label>
+
+                <!-- Conteneur relatif pour positionner l'icone oeil -->
+                <div class="relative">
+                    <input
+                        id="password"
+                        [type]="showPassword ? 'text' : 'password'"
+                        formControlName="password" 
+                        placeholder="***********"
+                        class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            transition duration-200 focus:ring-2 focus:ring-blue-500
+                            focus:border-transparent placeholder:text-gray-400
+                            border-gray-300 hover:border-gray-400"
+                    />
+
+                    <!-- Message d'erreur mot de passe -->
+                    @if (passwordErrors) {
+                        <p class="text-red-500 text-xs mt-1.5">
+                            {{ passwordErrors }}
+                        </p>
+                    }
+                    <!-- Bouton œil -->
+                    <button
+                        type="button"
+                        (click)="togglePassword()"
+                        class="absolute right-3 top-1/2 -translate-y-1/2
+                                text-gray-400 hover:text-gray-600 transition duration-200"
+                        [attr.aria-label]="showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'">
+
+                        <!-- Œil ouvert — mot de passe visible -->
+                        @if (showPassword) {
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5
+                                        12 5c4.478 0 8.268 2.943
+                                        9.542 7-1.274 4.057-5.064
+                                        7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        }
+
+                        <!-- Œil barré — mot de passe masqué -->
+                        @else {
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13.875 18.825A10.05 10.05 0
+                                        0112 19c-4.478 0-8.268-2.943-9.543-7a9.97
+                                        9.97 0 011.563-3.029m5.858.908a3 3 0
+                                        114.243 4.243M9.878 9.878l4.242
+                                        4.242M9.88 9.88l-3.29-3.29m7.532
+                                        7.532l3.29 3.29M3 3l3.59 3.59m0
+                                        0A9.953 9.953 0 0112 5c4.478 0
+                                        8.268 2.943 9.542 7a10.025 10.025
+                                        0 01-4.132 5.411m0 0L21 21"/>
+                            </svg>
+                        }
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bouton de connexion -->
+            <button
+                type="submit"
+                [disabled]="isLoading || form.invalid"
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+                       hover:from-blue-700 hover:to-indigo-700
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       text-white font-medium py-2.5 rounded-xl
+                       transition duration-200 text-sm mt-2 shadow-md">
+                @if (isLoading) {
+                    Connexion en cours...
+                } @else {
+                    Se connecter
+                }
+            </button>
+
+            
+        </form>
+    </div>
+    <!-- Footer partagé -->
+    <app-footer />
+</div>
+
+
