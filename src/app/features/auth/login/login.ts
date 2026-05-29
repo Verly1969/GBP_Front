@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Header } from '../../../shared/components/header/header';
 import { Footer } from '../../../shared/components/footer/footer';
 import { AuthService } from '../../../core/services/auth.service';
+import { TwoFactor } from '../two-factor/two-factor';
+import { LoginResponse } from '../../../core/models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +14,8 @@ import { AuthService } from '../../../core/services/auth.service';
     CommonModule,
     ReactiveFormsModule,
     Header,
-    Footer
+    Footer,
+    TwoFactor
   ],
   templateUrl: './login.html',
   styleUrl: './login.css',
@@ -22,9 +25,11 @@ export class Login {
   private readonly authService = inject(AuthService);
   private readonly router      = inject(Router);
 
-  errorMessage = '';
-  isLoading    = false;
-  showPassword = false;
+  errorMessage  = '';
+  isLoading     = false;
+  showPassword  = false;
+  showTwoFactor = false;
+  loginData: LoginResponse | null = null;
 
   form = this.fb.group({
     email:    ['', [Validators.required, Validators.email]],
@@ -49,9 +54,17 @@ export class Login {
       password: this.form.value.password!
     }).subscribe({
       // Succès
-      next: () => {
+      next: (response) => {
         this.isLoading = false;
-        this.router.navigate(['/dashboard']);
+        
+        if (response.twoFactorRequired){
+          // 2FA requis - afficher le composant TwoFactor
+          this.loginData     = response;
+          this.showTwoFactor = true;
+        } else {
+          // pas de 2FA requis - rediriger directement
+          this.router.navigate(['/dashboard']);
+        }
       },
       // Erreur
       error: (err) => {
@@ -62,7 +75,6 @@ export class Login {
 
     console.log('Formulaire soumis: ', this.form.value);
 
-    // TODO : connecter AuthService
   }
 
   get emailErrors(): string | null {

@@ -1,0 +1,100 @@
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50
+            flex flex-col items-center justify-center px-4">
+
+    <div class="bg-white rounded-2xl shados-xl p-8 w-full max-w-md
+                border border-gray-100">
+        
+        <!-- Première connexion - Afficher le code QR -->
+        @if (isFirstLogin && qrCodeImage) {
+
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">
+                    Scan this QR code with Google Authenticator
+                </h2>
+            </div>
+
+            <!-- Image QR code -->
+            <div class="flex justify-center mb-6">
+                <img [src]="qrCodeImage" 
+                     alt="QR Code 2FA"
+                     class="rounded-xl border border-gray-200 p-2">
+            </div>
+
+            <!-- Clé manuelle si pas de caméra -->
+             @if (secretKey) {
+
+                <div class="bg-gray-50 rounded-xl p-4 mb-6 text-center">
+                    <p class="text-xs text-gray-800 mb-1">
+                        Or enter this key manually: 
+                    </p>
+                    <p class="font-mono text-sm font-medium text-gray-800
+                              break-all select-all">
+                        {{ secretKey }}
+                    </p>
+                </div>
+            }
+        } @else {
+            <!-- Connexion suivante -->
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">
+                    Two-Factor Authentication
+                </h2>
+                <p class="text-gray-500 text-sm">
+                    Enter the 6-digit code from Google Authenticator
+                </p>
+            </div>
+        }
+
+        <!-- Message d'erreur -->
+        @if (errorMessage) {
+            <div class="bg-red-50 border border-red-200 text-red-600
+                        px-4 py-3 rounded-lg mb-6 text-sm">
+                {{ errorMessage }}
+            </div>
+        }
+
+        <!-- Formulaire code TOTP -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+
+            <div>
+                <label
+                    for="code" 
+                    class="block text-sm font-medium text-gray-700 mb-1.5">
+                    Authentication code
+                </label>
+                <input
+                    id="code"
+                    type="text"
+                    formControlName="code"
+                    placeholder="000000"
+                    maxlength="6"
+                    class="w-full px-4 py-2.5 border rounded-xl
+                           text-center tracking-widest text-2xl
+                           font-mono outline-none transition duration-200
+                           focus:ring-2 focus:ring-blue-500
+                           focus:border-transparent placeholder:text-gray-300
+                           border-gray-300 hover:border-gray-400" 
+                />
+
+                @if (codeErrors) {
+                    <p class="text-red-500 text-xs mt-1.5">{{ codeErrors}}</p>
+                }
+            </div>
+
+            <button
+                type="submit"
+                [disabled]="isLoading || form.invalid"
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+                       hover:from-blue-700 hover:to-indigo-700
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       text-white font-medium py-2.5 rounded-xl
+                       transition duration-200 text-sm shadow-md">
+                @if (isLoading) {
+                    Verifying...
+                } @else {
+                    Verify
+                }
+            </button>
+        </form>
+    </div>
+</div>
