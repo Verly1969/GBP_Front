@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Input } from '@angular/core';
+import { Component, inject, OnInit, Input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,7 +25,7 @@ export class TwoFactor implements OnInit {
   @Input() secretKey!   : string | null;
   @Input() isFirstLogin!: boolean;
 
-  qrCodeImage  = ''; // image générée par qrcode
+  qrCodeImage  = signal(''); // image générée par qrcode
   errorMessage = '';
   isLoading    = false;
 
@@ -35,12 +35,27 @@ export class TwoFactor implements OnInit {
 
   // Génération de l'image QR code
   async ngOnInit(): Promise<void> {
+    console.log('TwoFactorComponent initialisé');
+    console.log('isFirstLogin :', this.isFirstLogin);
+    console.log('qrCodeUri :', this.qrCodeUri);
+    console.log('email :', this.email);
+    console.log('secretKey :', this.secretKey);
+
     if (this.qrCodeUri) {
-      // Transforme l'URI en image Base64 affichable dans une balise <img>
-      this.qrCodeImage = await QRCode.toDataURL(this.qrCodeUri, {
-        width: 256,
-        margin: 2
-      })
+      try
+      {
+        // Transforme l'URI en image Base64 affichable dans une balise <img>
+        const image = await QRCode.toDataURL(this.qrCodeUri, {
+          width: 256,
+          margin: 2
+        });
+        this.qrCodeImage.set(image);
+        console.log('QR code généré :', image.substring(0, 50));
+      } catch (err) {
+        console.log('Erreur génération QR code :', err);
+      }
+    } else {
+      console.log('qrCodeUri est null — pas de QR code généré');
     }
   }
 

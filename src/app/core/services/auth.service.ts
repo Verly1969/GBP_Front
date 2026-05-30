@@ -14,7 +14,7 @@ export class AuthService {
   private readonly router = inject(Router);
 
   // -- URL de l'API
-  private readonly apiUrl = 'https://localhost:7161/api';
+  private readonly apiUrl = '/api';
 
   // -- Etat de l'application
   readonly currentUser = signal<LoginResponse | null>(null);
@@ -42,7 +42,7 @@ export class AuthService {
   // Vérification du code TOTP
   verifyTwoFactor(request: TwoFactorRequest) {
     return this.http
-      .post<LoginResponse>(`${this.apiUrl}/2fa/verify`, request)
+      .post<LoginResponse>(`${this.apiUrl}/Auth/2fa/verify`, request)
       .pipe(
         tap(response =>{
           // Cette fois on a le token

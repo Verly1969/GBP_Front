@@ -1,7 +1,10 @@
 <!-- Header partagé -->
 <app-header />
 
-@if (!showTwoFactor) {
+<p>showTwoFactor : {{ showTwoFactor()}}</p>
+<p>loginData : {{ loginData() | json}}</p>
+
+@if (!showTwoFactor()) {
 
     <!-- Page principale -->
     <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50
@@ -144,12 +147,12 @@
     </div>
 } @else {
 
-    @if (loginData) {
+    @if (loginData()) {
         <app-two-factor
-            [email]="loginData.email"
-            [qrCodeUri]="loginData.qrCodeUri"
-            [secretKey]="loginData.secretKey"
-            [isFirstLogin]="loginData.isFirstLogin">
+            [email]="loginData()!.email"
+            [qrCodeUri]="loginData()!.qrCodeUri"
+            [secretKey]="loginData()!.secretKey"
+            [isFirstLogin]="loginData()!.isFirstLogin">
         </app-two-factor>
     }
 }

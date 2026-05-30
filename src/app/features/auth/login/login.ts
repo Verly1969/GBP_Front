@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -28,8 +28,8 @@ export class Login {
   errorMessage  = '';
   isLoading     = false;
   showPassword  = false;
-  showTwoFactor = false;
-  loginData: LoginResponse | null = null;
+  showTwoFactor = signal(false);
+  loginData     = signal<LoginResponse | null> (null);
 
   form = this.fb.group({
     email:    ['', [Validators.required, Validators.email]],
@@ -55,19 +55,27 @@ export class Login {
     }).subscribe({
       // Succès
       next: (response) => {
+
+      console.log('Réponse reçue :', response);
+      console.log('twoFactorRequired :', response.twoFactorRequired);
+      console.log('isFirstLogin :', response.isFirstLogin);
+
         this.isLoading = false;
         
         if (response.twoFactorRequired){
           // 2FA requis - afficher le composant TwoFactor
-          this.loginData     = response;
-          this.showTwoFactor = true;
+          console.log('Affichage 2FA...');
+          this.loginData.set(response);
+          this.showTwoFactor.set(true);
         } else {
           // pas de 2FA requis - rediriger directement
+          console.log('Redirection dashboard...');
           this.router.navigate(['/dashboard']);
         }
       },
       // Erreur
       error: (err) => {
+        console.log('Erreur :', err);
         this.isLoading = false;
         this.errorMessage = err.error?.message ?? 'Email ou mot de passe incorrect.';
       }
