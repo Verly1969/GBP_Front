@@ -19,7 +19,4 @@ export class Dashboard {
   // Récupérer l'utilisateur connecté depuis le signal
   currentUser = this.authService.currentUser;
 
-  logout(): void {
-    this.authService.logout();
-  }
 }
