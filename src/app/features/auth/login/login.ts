@@ -56,20 +56,14 @@ export class Login {
       // Succès
       next: (response) => {
 
-      console.log('Réponse reçue :', response);
-      console.log('twoFactorRequired :', response.twoFactorRequired);
-      console.log('isFirstLogin :', response.isFirstLogin);
-
         this.isLoading = false;
         
         if (response.twoFactorRequired){
           // 2FA requis - afficher le composant TwoFactor
-          console.log('Affichage 2FA...');
           this.loginData.set(response);
           this.showTwoFactor.set(true);
         } else {
           // pas de 2FA requis - rediriger directement
-          console.log('Redirection dashboard...');
           this.router.navigate(['/dashboard']);
         }
       },

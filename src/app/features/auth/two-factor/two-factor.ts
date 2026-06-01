@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Input, signal } from '@angular/core';
+import { Component, inject, OnInit, Input, signal, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ export class TwoFactor implements OnInit {
   private readonly fb          = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router      = inject(Router);
+  private readonly cdr         = inject(ChangeDetectorRef);
 
   // Données reçues depuis le composant Login
   @Input() email!       : string;
@@ -26,8 +27,8 @@ export class TwoFactor implements OnInit {
   @Input() isFirstLogin!: boolean;
 
   qrCodeImage  = signal(''); // image générée par qrcode
-  errorMessage = '';
-  isLoading    = false;
+  errorMessage = signal('');
+  isLoading    = signal(false);
 
   form = this.fb.group({
     code: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]]
@@ -50,6 +51,8 @@ export class TwoFactor implements OnInit {
           margin: 2
         });
         this.qrCodeImage.set(image);
+        // pour éviter l'erreur NG0100
+        this.cdr.detectChanges(); // force la mise à jour
         console.log('QR code généré :', image.substring(0, 50));
       } catch (err) {
         console.log('Erreur génération QR code :', err);
@@ -63,19 +66,19 @@ export class TwoFactor implements OnInit {
   onSubmit(): void {
     if (this.form.invalid) return;
 
-    this.isLoading    = true;
-    this.errorMessage = '';
+    this.isLoading.set(true);
+    this.errorMessage.set('');
 
     this.authService.verifyTwoFactor({
       email: this.email,
       code : this.form.value.code!
     }).subscribe({
       next: () => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        this.isLoading = false;
+        this.isLoading.set(false);
         this.errorMessage = err.error?.message ?? 'Invalid code. Please try again.';
       }
     });
