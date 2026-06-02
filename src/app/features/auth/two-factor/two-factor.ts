@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { toast } from 'ngx-sonner';
 import QRCode from 'qrcode';
 
 @Component({
@@ -76,10 +77,13 @@ export class TwoFactor implements OnInit {
       next: () => {
         this.isLoading.set(false);
         this.router.navigate(['/dashboard']);
+        toast.success('Connexion réussie');
       },
       error: (err) => {
         this.isLoading.set(false);
         this.errorMessage = err.error?.message ?? 'Invalid code. Please try again.';
+        toast.error('Connexion refusée');
+        this.router.navigate(['./login']);
       }
     });
   }

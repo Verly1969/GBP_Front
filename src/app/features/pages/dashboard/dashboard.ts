@@ -6,7 +6,6 @@ import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-dashboard',
   imports: [
-    Header,
     Footer
   ],
   templateUrl: './dashboard.html',
