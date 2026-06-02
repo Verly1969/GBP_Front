@@ -1,3 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "tailwindcss";
+
+body{
+    background-image: url('../src/app/assets/images/accueil-fond.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    overflow-y: hidden;
+    scrollbar-width: auto;
+}

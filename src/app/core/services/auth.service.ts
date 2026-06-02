@@ -62,7 +62,7 @@ export class AuthService {
     localStorage.removeItem('gbp_user');
     this.currentUser.set(null);
     this.isLoggedIn.set(false);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/accueil']);
   }
 
   // Récupérer le token

@@ -1,5 +1,10 @@
 <footer class="text-center py-4">
-    <p class="text-gray-400 text-xs">
-        © {{ currentYear }} GBP - Gestion Budget Personnel
+    <p class="text-gray-500 text-xl">
+        © 
+        @if (currentYear > 2026) {
+            2026 - {{ currentYear }} GBP - Gestion Budget Personnel
+        } @else {
+            {{ currentYear }} GBP - Gestion Budget Personnel
+        }
     </p>
 </footer>

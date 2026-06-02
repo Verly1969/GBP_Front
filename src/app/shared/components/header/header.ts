@@ -27,4 +27,8 @@ export class Header {
     this.authService.logout();
   }
 
+  returnAccueil(): void {
+    this.router.navigate(['./accueil']);
+  }
+
 }

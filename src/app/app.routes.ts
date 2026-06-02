@@ -13,6 +13,14 @@ export const routes: Routes = [
             import('./features/pages/dashboard/dashboard')
                 .then(d => d.Dashboard)
     },
-    { path: '',   redirectTo: 'login', pathMatch: 'full'},
-    { path: '**', redirectTo: 'login'}
+    {   path: '',
+        loadComponent: () =>
+            import('./features/pages/accueil/accueil')
+                .then(a => a.Accueil)
+    },
+    {   path: '**',
+        loadComponent: () =>
+            import('./features/pages/accueil/accueil')
+                .then(a => a.Accueil)
+    }
 ];
