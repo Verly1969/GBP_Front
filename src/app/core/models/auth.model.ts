@@ -10,6 +10,14 @@ export interface TwoFactorRequest {
     code:  string;
 }
 
+// Ce que l'on envoie pour le register
+export interface RegisterRequest {
+    firstname: string;
+    lastname:  string;
+    email:     string;
+    password:  string;
+}
+
 // Ce que l'on reçoit de l'API
 export interface LoginResponse {
     id                   : string;
