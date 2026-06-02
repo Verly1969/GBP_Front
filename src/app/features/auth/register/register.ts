@@ -4,7 +4,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Footer } from '../../../shared/components/footer/footer';
-import { Login } from '../login/login';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +18,6 @@ import { Login } from '../login/login';
 export class Register {
 
   private readonly fb          = inject(FormBuilder);
-  private readonly login       = inject(Login);
   private readonly router      = inject(Router);
   private readonly authService = inject(AuthService);
 
