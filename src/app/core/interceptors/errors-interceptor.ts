@@ -19,15 +19,15 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
           router.navigate(['./accueil']);
           break;
 
+        case 401:
+          // Non-autorisé
+          message += "/nConnexion refusée";
+          break;
+
         case 500:
           // Erreur serveur
           message += "/nServeur indisponible";
           router.navigate(['./accueil']);
-          break;
-
-        case 401:
-          // Non-autorisé
-          message += "/nConnexion refusée";
           break;
 
         default:
