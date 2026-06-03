@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AbstractControl } from '@angular/forms'; // Classe de base dont les contrôles formulaire hérite 
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { tap } from 'rxjs';
 import { LoginRequest, LoginResponse, TwoFactorRequest, RegisterRequest } from '../models/auth.model';
 
@@ -61,6 +61,17 @@ export class AuthService {
       )
   }
 
+  // Vérification 2 mots de passe sont égaux
+  passwordMatchValidator(): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+
+      const password        = group.get('password')?.value;
+      const confirmPassword = group.get('confirmPassword')?.value;
+
+      return password === confirmPassword ? null : {passwordMismatch: true};
+    }
+  }
+
   // Logout
   logout(): void {
     localStorage.removeItem('gbp_token');
@@ -108,6 +119,22 @@ export class AuthService {
 
     if (!ctrl?.touched || !ctrl.errors) return null;
     if (ctrl.errors['required']) return `${control} est obligatoire`;
+    return null;
+  }
+
+  // Erreurs passwords pas égaux
+  getConfirmPasswordErrors(ctrl: AbstractControl | null, group: AbstractControl | null): string | null {
+
+    if (!ctrl?.touched || !ctrl.errors) {
+      if (ctrl?.touched && group?.errors?.['passwordMismatch']) {
+        return "Les mots de passe ne correspondent pas"
+      }
+
+      return null;
+    } 
+    if (ctrl.errors['required']) return "La confirmation est obligatoire";
+    if (ctrl.errors['minlength']) return "Minimum 9 caractères";
+
     return null;
   }
 

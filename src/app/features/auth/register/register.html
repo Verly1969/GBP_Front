@@ -3,7 +3,7 @@
                 flex flex-col items-center justify-center px-4">
                 
         <!-- carte blanche du formulaire -->
-        <div class="bg-gray-100 rounded-2xl shadow-xl p-8 w-full max-w-md border border-2 border-gray-500 opacity-95">
+        <div class="bg-gray-100 rounded-2xl shadow-xl p-8 w-full max-w-xl border border-2 border-gray-500 opacity-95">
 
             <!-- titre -->
             <div class="text-center mb-8">
@@ -27,7 +27,7 @@
                             type="text"
                             formControlName="firstname"
                             placeholder="Votre prénom ..."
-                            class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            class="w-61 px-4 py-2.5 border rounded-xl text-sm outline-none
                                 transition duration-200 focus:ring-2 focus:ring-blue-500
                                 focus:border-transparent placeholder:text-gray-400
                                 border-gray-300 hover:border-gray-400"
@@ -43,7 +43,8 @@
                             id="lastname"
                             type="text"
                             placeholder="Votre nom de famille ..."
-                            class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            formControlName="lastname"
+                            class="w-61 px-4 py-2.5 border rounded-xl text-sm outline-none
                                 transition duration-200 focus:ring-2 focus:ring-blue-500
                                 focus:border-transparent placeholder:text-gray-400
                                 border-gray-300 hover:border-gray-400"
@@ -60,6 +61,7 @@
                         id="email"
                         type="text"
                         placeholder="Votre adresse E-mail ..."
+                        formControlName="email"
                         class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
                             transition duration-200 focus:ring-2 focus:ring-blue-500
                             focus:border-transparent placeholder:text-gray-400
@@ -81,7 +83,7 @@
                                 [type]="showPassword() ? 'text' : 'password'"
                                 formControlName="password" 
                                 placeholder="***********"
-                                class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                                class="w-61 px-4 py-2.5 border rounded-xl text-sm outline-none
                                     transition duration-200 focus:ring-2 focus:ring-blue-500
                                     focus:border-transparent placeholder:text-gray-400
                                     border-gray-300 hover:border-gray-400"
@@ -137,27 +139,27 @@
 
                     <!-- Champ comfirme Password -->
                     <div>
-                        <label for="comfirmPassword" class="block text-sm font-medium text-gray-700 mb-1.5">
-                            Mot de passe:
+                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1.5">
+                            Comfirmer le mot de passe:
                         </label>
 
                         <!-- Conteneur relatif pour positionner l'icone oeil -->
                         <div class="relative">
                             <input
-                                id="password"
+                                id="confirmPassword"
                                 [type]="showPassword() ? 'text' : 'password'"
-                                formControlName="comfirmPassword" 
+                                formControlName="confirmPassword" 
                                 placeholder="***********"
-                                class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                                class="w-61 px-4 py-2.5 border rounded-xl text-sm outline-none
                                     transition duration-200 focus:ring-2 focus:ring-blue-500
                                     focus:border-transparent placeholder:text-gray-400
                                     border-gray-300 hover:border-gray-400"
                             />
 
                             <!-- Message d'erreur mot de passe -->
-                            @if (passwordErrors) {
+                            @if (confirmPasswordErrors) {
                                 <p class="text-red-500 text-xs mt-1.5">
-                                    {{ passwordErrors }}
+                                    {{ confirmPasswordErrors }}
                                 </p>
                             }
                             <!-- Bouton œil -->
@@ -200,10 +202,26 @@
                                 }
                             </button>
                         </div>
+                        
                     </div>
+                    
                 </div>
+                <!-- Bouton de connexion -->
+                <button
+                    type="submit"
+                    [disabled]="isLoading() || form.invalid"
+                    class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+                        hover:from-blue-700 hover:to-indigo-700 cursor-pointer
+                        disabled:opacity-50 disabled:cursor-not-allowed 
+                        text-white font-medium py-2.5 rounded-xl
+                        transition duration-200 text-sm mt-2 shadow-md">
+                    @if (isLoading()) {
+                        Connexion en cours...
+                    } @else {
+                        Se connecter
+                    }
+                </button>
             </form>
-
         </div>
         <app-footer />
     </div>

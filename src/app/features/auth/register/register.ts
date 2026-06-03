@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Footer } from '../../../shared/components/footer/footer';
 import { toast } from 'ngx-sonner';
-import { email } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-register',
@@ -32,7 +31,9 @@ export class Register {
     lastname:        ['', [Validators.required, Validators.minLength(3)]],
     email:           ['', [Validators.required, Validators.email]],
     password:        ['', [Validators.required, Validators.minLength(9)]],
-    confirmPassword: ['', Validators.required, Validators.minLength(9)]
+    confirmPassword: ['', [Validators.required, Validators.minLength(9)]]
+  },{
+    validators: this.authService.passwordMatchValidator()
   })
 
   onSubmit(): void {
@@ -68,4 +69,10 @@ export class Register {
   get firstnameErrors(): string | null { return this.authService.getRequiredErrors(this.form.get('firstname'), 'Le prénom'); }
   get lastnameErrors():  string | null { return this.authService.getRequiredErrors(this.form.get('lastname'), "Le nom de famille"); } 
   get passwordErrors() : string | null { return this.authService.getPasswordErrors(this.form.get('password')); }
+  get confirmPasswordErrors(): string | null {
+    return this.authService.getConfirmPasswordErrors(
+      this.form.get('confirmPassword'),
+      this.form
+    )
+  }
 }
