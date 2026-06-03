@@ -28,10 +28,11 @@ export class Register {
   errorMessage = signal('');
   
   form = this.fb.group({
-    firstname: ['', [Validators.required, Validators.minLength(3)]],
-    lastname:  ['', [Validators.required, Validators.minLength(3)]],
-    email:     ['', [Validators.required, Validators.email]],
-    password:  ['', [Validators.required, Validators.minLength(9)]]
+    firstname:       ['', [Validators.required, Validators.minLength(3)]],
+    lastname:        ['', [Validators.required, Validators.minLength(3)]],
+    email:           ['', [Validators.required, Validators.email]],
+    password:        ['', [Validators.required, Validators.minLength(9)]],
+    confirmPassword: ['', Validators.required, Validators.minLength(9)]
   })
 
   onSubmit(): void {
