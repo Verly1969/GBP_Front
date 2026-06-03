@@ -2,12 +2,28 @@
 
 @import "tailwindcss";
 
-body{
+html, body {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
+}
+
+body.no-scroll {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+body::before{
+    content: '';
+    position: fixed;
+    inset: 0;
     background-image: url('../src/app/assets/images/accueil-fond.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 100vh;
-    overflow-y: hidden;
-    scrollbar-width: auto;
+    opacity: 0.5;
+    z-index: -1;
 }

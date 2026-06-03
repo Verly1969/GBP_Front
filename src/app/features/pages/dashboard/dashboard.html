@@ -1,5 +1,5 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50
-            flex flex-col items-center justify-center px-4">
+<div class="min-h-screen
+            flex flex-col items-center justify-center px-4 fond-container">
 
   <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md
               border border-gray-100 text-center">
@@ -28,12 +28,11 @@
           {{ currentUser()!.firstName }} {{ currentUser()!.lastName }}
         </span>
       </p>
-      <!-- <p class="text-sm text-gray-400 mb-8">
+      <p class="text-sm text-gray-400 mb-8">
         Rôle : {{ currentUser()!.role }}
-      </p> -->
+      </p>
     }
 
   </div>
+  <app-footer />
 </div>
-
-<app-footer />

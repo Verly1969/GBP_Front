@@ -1,8 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AbstractControl } from '@angular/forms'; // Classe de base dont les contrôles formulaire hérite 
 import { tap } from 'rxjs';
-import { LoginRequest, LoginResponse, TwoFactorRequest } from '../models/auth.model';
+import { LoginRequest, LoginResponse, TwoFactorRequest, RegisterRequest } from '../models/auth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,10 @@ export class AuthService {
   readonly currentUser = signal<LoginResponse | null>(null);
   readonly isLoggedIn  = signal<boolean>(false);
 
+  constructor() {
+    this.restoreSession(); // Restaure la session
+  }
+
   // Login
   login(request: LoginRequest) {
     return this.http
@@ -30,13 +35,16 @@ export class AuthService {
           // (pas dans le cas quand 2FA est requis)
           if (response.accessToken)
           {
-            localStorage.setItem('gbp_token', response.accessToken);
-            localStorage.setItem('gbp_user',  JSON.stringify(response));
-            this.currentUser.set(response);
-            this.isLoggedIn.set(true);
+            this.saveSession(response);
           }
         })
       )
+  }
+
+  // Register
+  register(request: RegisterRequest) {
+    return this.http
+      .post<void>(`${this.apiUrl}/Auth/register`, request);
   }
 
   // Vérification du code TOTP
@@ -47,10 +55,7 @@ export class AuthService {
         tap(response =>{
           // Cette fois on a le token
           if (response.accessToken) {
-            localStorage.setItem('gbp_token', response.accessToken);
-            localStorage.setItem('gbp_user' , JSON.stringify(response.accessToken));
-            this.currentUser.set(response);
-            this.isLoggedIn.set(true);
+            this.saveSession(response);
           }
         })
       )
@@ -60,6 +65,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('gbp_token');
     localStorage.removeItem('gbp_user');
+
     this.currentUser.set(null);
     this.isLoggedIn.set(false);
     this.router.navigate(['/accueil']);
@@ -68,6 +74,54 @@ export class AuthService {
   // Récupérer le token
   getToken(): string | null {
     return localStorage.getItem('gbp_token');
+  }
+
+// ===========================================================
+// Methodes partagées - Login, Register
+// ===========================================================
+
+  // Toggle visibilité mot de passe
+  toggleVisibilityPassword(showPassword: ReturnType<typeof signal<boolean>>): void {
+    showPassword.update(v => !v); // On inverse le booléen
+  }
+
+  // Erreurs emails
+  getEmailErrors(ctrl: AbstractControl | null): string | null {
+
+    if (!ctrl?.touched || !ctrl?.errors) return null;
+    if (ctrl.errors['required']) return "L'email est obligatoire";
+    if (ctrl.errors['email']) return "Format d'email invalide";
+    return null;
+  }
+
+  // Erreurs mot de passe
+  getPasswordErrors(ctrl: AbstractControl | null): string | null {
+
+    if (!ctrl?.touched || !ctrl.errors) return null;
+    if (ctrl.errors['required']) return "Le mot de passe est obligatoire";
+    if (ctrl.errors['minlength']) return "Minimum 9 caractères"
+    return null;
+  }
+
+  // Erreurs de champs génériques
+  getRequiredErrors(ctrl: AbstractControl | null, control: string): string | null {
+
+    if (!ctrl?.touched || !ctrl.errors) return null;
+    if (ctrl.errors['required']) return `${control} est obligatoire`;
+    return null;
+  }
+
+// ===========================================================
+// Methodes privées 
+// ===========================================================
+
+  // Sauvegarde la session (évite la duplication)
+  private saveSession(response: LoginResponse): void {
+    localStorage.setItem('gbp_token', response.accessToken!);
+    localStorage.setItem('gbp_user', JSON.stringify(response));
+
+    this.currentUser.set(response);
+    this.isLoggedIn.set(true);
   }
 
   // Restaurer la session au rechargement

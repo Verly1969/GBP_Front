@@ -4,6 +4,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Footer } from '../../../shared/components/footer/footer';
+import { toast } from 'ngx-sonner';
+import { email } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-register',
@@ -22,24 +24,47 @@ export class Register {
   private readonly authService = inject(AuthService);
 
   showPassword = signal(false);
+  isLoading    = signal(false);
+  errorMessage = signal('');
   
   form = this.fb.group({
     firstname: ['', [Validators.required, Validators.minLength(3)]],
-    lastname:  ['', [Validators.required, Validators.minLength(3)]]
+    lastname:  ['', [Validators.required, Validators.minLength(3)]],
+    email:     ['', [Validators.required, Validators.email]],
+    password:  ['', [Validators.required, Validators.minLength(9)]]
   })
 
-  togglePassword(): void {
-    this.showPassword.set(!this.showPassword);
+  onSubmit(): void {
+    if (this.form.invalid) return;
+
+    this.isLoading.set(true);
+    this.errorMessage.set('');
+
+    this.authService.register({
+      firstname: this.form.value.firstname!,
+      lastname: this.form.value.lastname!,
+      password: this.form.value.password!,
+      email: this.form.value.email!
+    }).subscribe({
+      next: () => {
+        this.isLoading.set(false);
+        toast.success('Compte créé avec succès.');
+        this.router.navigate(['login']);
+      },
+      error: (err) => {
+        this.isLoading.set(false);
+        this.errorMessage.set(err.error?.message ?? "Erreur lors de l'inscription");
+        toast.error(this.errorMessage());
+      }
+    })
   }
 
-  get passwordErrors(): string | null {
-    const ctrl = this.form.get('password');
+// ===========================================================
+// Methodes déléguées de AuthService 
+// ===========================================================
+  togglePassword(): void { this.authService.toggleVisibilityPassword(this.showPassword); }
 
-    if (ctrl?.touched && ctrl?.errors) {
-      if (ctrl.errors['required']) return "Le mot de passe est obligatoire";
-      if (ctrl.errors['minlength']) return "Minimum 6 caractères";
-    }
-
-    return null;
-  }
+  get firstnameErrors(): string | null { return this.authService.getRequiredErrors(this.form.get('firstname'), 'Le prénom'); }
+  get lastnameErrors():  string | null { return this.authService.getRequiredErrors(this.form.get('lastname'), "Le nom de famille"); } 
+  get passwordErrors() : string | null { return this.authService.getPasswordErrors(this.form.get('password')); }
 }

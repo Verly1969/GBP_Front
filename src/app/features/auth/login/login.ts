@@ -1,9 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Footer } from '../../../shared/components/footer/footer';
 import { AuthService } from '../../../core/services/auth.service';
+import { ScrollService } from '../../../core/services/scroll.service';
 import { TwoFactor } from '../two-factor/two-factor';
 import { LoginResponse } from '../../../core/models/auth.model';
 import { toast } from 'ngx-sonner';
@@ -19,10 +20,14 @@ import { toast } from 'ngx-sonner';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
-  private readonly fb          = inject(FormBuilder);
-  private readonly authService = inject(AuthService);
-  private readonly router      = inject(Router);
+export class Login implements OnInit, OnDestroy {
+  private readonly fb            = inject(FormBuilder);
+  private readonly authService   = inject(AuthService);
+  private readonly scrollService = inject(ScrollService);
+  private readonly router        = inject(Router);
+
+  ngOnInit(): void     { this.scrollService.hide(); }
+  ngOnDestroy(): void  { this.scrollService.show(); }
 
   errorMessage  = signal('');
   isLoading     = signal(false);
@@ -32,15 +37,11 @@ export class Login {
 
   form = this.fb.group({
     email:    ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    password: ['', [Validators.required, Validators.minLength(9)]]
   });
 
   goToRegister(): void {
     this.router.navigate(['./register']);
-  }
-
-  togglePassword(): void {
-    this.showPassword.set(!this.showPassword);
   }
 
   onSubmit(): void {
@@ -72,7 +73,6 @@ export class Login {
       },
       // Erreur
       error: (err) => {
-        console.log('Erreur :', err);
         this.isLoading.set(false);
         this.errorMessage.set(err.error?.message ?? 'Email ou mot de passe incorrect.');
         toast.error(this.errorMessage());
@@ -83,26 +83,13 @@ export class Login {
 
   }
 
-  get emailErrors(): string | null {
-    const ctrl = this.form.get('email');
+// ===========================================================
+// Methodes déléguées de AuthService 
+// ===========================================================
+  togglePassword(): void { this.authService.toggleVisibilityPassword(this.showPassword); }
 
-    if (ctrl?.touched && ctrl?.errors) {
-      if (ctrl.errors['required']) return "L'email est obligatoire";
-      if (ctrl.errors['email']) return "Format d'email invalide";
-    }
+  get emailErrors(): string | null { return this.authService.getEmailErrors(this.form.get('email')); }
 
-    return null;
-  }
-
-  get passwordErrors(): string | null {
-    const ctrl = this.form.get('password');
-
-    if (ctrl?.touched && ctrl?.errors) {
-      if (ctrl.errors['required']) return "Le mot de passe est obligatoire";
-      if (ctrl.errors['minlength']) return "Minimum 6 caractères";
-    }
-
-    return null;
-  }
+  get passwordErrors(): string | null { return this.authService.getPasswordErrors(this.form.get('password')); }
 
 }
