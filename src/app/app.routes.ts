@@ -19,7 +19,7 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         loadComponent: () =>
-            import('./features/pages/dashboard/dashboard')
+            import('./shared/dashboard/dashboard')
                 .then(d => d.Dashboard),
         canActivate: [authGuard]
     },
