@@ -5,14 +5,16 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Footer } from '../../../shared/components/footer/footer';
 import { toast } from 'ngx-sonner';
+import { Header } from "../../../shared/components/header/header";
 
 @Component({
   selector: 'app-register',
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    Footer
-  ],
+    Footer,
+    Header
+],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })

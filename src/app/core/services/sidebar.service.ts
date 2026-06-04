@@ -15,7 +15,7 @@ export class SidebarService {
     {
       label: 'Tableau de bord',
       icon: '📊',
-      route: '/dashbord',
+      route: '/dashboard',
       roles: ['Admin', 'User']
     },
     {

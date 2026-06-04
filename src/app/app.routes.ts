@@ -1,8 +1,16 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
+import { Home } from './features/home/home';
+import { Layout } from './features/pages/layout/layout';
+import { Dashboard } from './features/pages/dashboard/dashboard';
 
 export const routes: Routes = [
+    {
+        path: 'accueil',
+        component: Home,
+        canActivate: [guestGuard]
+    },
     {
         path: 'login',
         loadComponent: () =>
@@ -17,21 +25,18 @@ export const routes: Routes = [
                 .then(r => r.Register)
     },
     {
-        path: 'dashboard',
-        loadComponent: () =>
-            import('./shared/dashboard/dashboard')
-                .then(d => d.Dashboard),
-        canActivate: [authGuard]
+        path: '',
+        component: Layout,
+        canActivate: [authGuard],
+        children: [
+            { path: 'dashboard', component: Dashboard}
+        ]
     },
     {   path: '',
-        loadComponent: () =>
-            import('./features/pages/accueil/accueil')
-                .then(a => a.Accueil),
+        redirectTo: 'accueil',
         pathMatch: 'full'
     },
     {   path: '**',
-        loadComponent: () =>
-            import('./features/pages/accueil/accueil')
-                .then(a => a.Accueil)
+        redirectTo: 'accueil'
     }
 ];

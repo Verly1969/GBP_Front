@@ -8,6 +8,7 @@ import { ScrollService } from '../../../core/services/scroll.service';
 import { TwoFactor } from '../two-factor/two-factor';
 import { LoginResponse } from '../../../core/models/auth.model';
 import { toast } from 'ngx-sonner';
+import { Header } from "../../../shared/components/header/header";
 
 @Component({
   selector: 'app-login',
@@ -15,8 +16,9 @@ import { toast } from 'ngx-sonner';
     CommonModule,
     ReactiveFormsModule,
     Footer,
-    TwoFactor
-  ],
+    TwoFactor,
+    Header
+],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
