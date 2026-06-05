@@ -1,1 +1,45 @@
-<p>général dashboard works!</p>
+<div>
+    <h1 class="text-2xl font-bold text-white text-center my-8">
+        Tableau de bord
+    </h1>
+
+    <!-- stats annuels --> 
+    <div class="mb-6 bg-white mx-5 rounded-xl">
+        <h3 class="text-gray-900 text-center font-semibold py-5">
+            Statistique annuelle
+        </h3>
+        <div class="w-full">
+            <app-charts
+                type="line"
+                [data]="lineData"
+                [options]="lineOptions"
+                />
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-6 mb-6 ml-5 mr-5">
+        <!-- Graphique tri par catégorie -->
+        <div class="bg-white rounded-xl p-6 border border-gray-700">
+            <h3 class="text-gray-900 text-center font-semibold py-5">
+                Tri par catégorie
+            </h3>
+            <app-charts 
+                type="doughnut"
+                [data]="barData"
+                [options]="barOptions"
+                />
+        </div>
+
+        <!-- Graphique % dépense / épargne -->
+        <div class="bg-white rounded-xl p-6 border border-gray-700">
+            <h3 class="text-gray-900 text-center font-semibold py-5">
+                Par rapport au revenu
+            </h3>
+            <app-charts 
+                type="doughnut"
+                [data]="donutData"
+                [options]="donutOptions"
+                />
+        </div>
+    </div>
+</div>
