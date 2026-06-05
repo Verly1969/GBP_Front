@@ -76,7 +76,7 @@ export class TwoFactor implements OnInit {
     }).subscribe({
       next: () => {
         this.isLoading.set(false);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['app/dashboard']);
         toast.success('Connexion réussie');
       },
       error: (err) => {

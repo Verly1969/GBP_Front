@@ -70,7 +70,7 @@ export class Login implements OnInit, OnDestroy {
           this.showTwoFactor.set(true);
         } else {
           // pas de 2FA requis - rediriger directement
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['app/dashboard']);
         }
       },
       // Erreur

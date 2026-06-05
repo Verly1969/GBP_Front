@@ -6,10 +6,15 @@ import { Layout } from './features/pages/layout/layout';
 import { Dashboard } from './features/pages/dashboard/dashboard';
 
 export const routes: Routes = [
+    {   path: '',
+        redirectTo: 'accueil',
+        pathMatch: 'full'
+    },
     {
         path: 'accueil',
-        component: Home,
-        canActivate: [guestGuard]
+        loadComponent: () =>
+            import('./features/home/home')
+            .then(h => h.Home)
     },
     {
         path: 'login',
@@ -25,16 +30,13 @@ export const routes: Routes = [
                 .then(r => r.Register)
     },
     {
-        path: '',
+        path: 'app',
         component: Layout,
         canActivate: [authGuard],
         children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             { path: 'dashboard', component: Dashboard}
         ]
-    },
-    {   path: '',
-        redirectTo: 'accueil',
-        pathMatch: 'full'
     },
     {   path: '**',
         redirectTo: 'accueil'
