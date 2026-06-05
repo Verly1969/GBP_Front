@@ -3,4 +3,5 @@ export interface NavItem {
     icon:  string;
     route: string;
     roles:  string[];
+    children?: NavItem[];
 }

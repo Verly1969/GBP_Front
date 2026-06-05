@@ -15,33 +15,59 @@ export class SidebarService {
     {
       label: 'Tableau de bord',
       icon: '📊',
-      route: '/dashboard',
+      route: '/app/dashboard',
       roles: ['Admin', 'User']
     },
     {
-      label: 'Profil',
+      label: 'Mon compte',
       icon: '👱',
-      route: '/profil',
-      roles: ['Admin', 'User']
+      route: '',
+      roles: ['Admin', 'User'],
+      children: [
+        {
+          label: 'Profil',
+          icon: '✒️',
+          route: '/app/profil',
+          roles: ['Admin', 'User']
+        },
+        {
+          label: 'Email',
+          icon: '📧',
+          route: '/app/email',
+          roles: ['Admin', 'User']
+        },
+        {
+          label: 'Mot de passe',
+          icon: '🗝️',
+          route: '/app/password',
+          roles: ['Admin', 'User']
+        }
+      ]
     },
     {
       label: 'Comptes',
       icon: '💰',
-      route: '/account',
+      route: '/app/account',
       roles: ['Admin', 'User']
     },
     {
       label: 'Opérations',
       icon: '🛒',
-      route: '/operations',
+      route: '/app/operations',
       roles: ['Admin', 'User']
     },
     
     // Uniquement l'Admin
     {
+      label: 'Utilisateurs',
+      icon: '👯',
+      route: '/app/admin/users',
+      roles: ['Admin']
+    },
+    {
       label: 'Réglages',
       icon: '⚙️',
-      route: '/admin/reglages',
+      route: '/app/admin/reglages',
       roles: ['Admin']
     }
   ]

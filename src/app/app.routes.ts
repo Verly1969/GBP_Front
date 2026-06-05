@@ -4,6 +4,9 @@ import { guestGuard } from './core/guards/guest-guard';
 import { Home } from './features/home/home';
 import { Layout } from './features/pages/layout/layout';
 import { Dashboard } from './features/pages/dashboard/dashboard';
+import { Profil } from './features/pages/profil/profil';
+import { Email } from './features/pages/email/email';
+import { Password } from './features/pages/password/password';
 
 export const routes: Routes = [
     {   path: '',
@@ -35,10 +38,11 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-            { path: 'dashboard', component: Dashboard}
+            { path: 'dashboard', component: Dashboard},
+            { path: 'profil', component: Profil},
+            { path: 'email', component: Email},
+            { path: 'password', component: Password}
         ]
     },
-    {   path: '**',
-        redirectTo: 'accueil'
-    }
+    {   path: '**', redirectTo: 'accueil' }
 ];
