@@ -1,5 +1,13 @@
-export interface UserProfil {
+export interface UserUpdate {
     firstname: string;
     lastname:  string;
-    email:     string;
+}
+
+export interface UserEmailUpdate {
+    email: string;
+}
+
+export interface UserPasswordUpdate {
+    oldPassword: string;
+    newPassword: string;
 }

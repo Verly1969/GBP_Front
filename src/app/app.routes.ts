@@ -24,7 +24,7 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./features/auth/login/login')
                 .then(l => l.Login),
-        canActivate: [guestGuard]
+        //canActivate: [guestGuard]
     },
     {
         path: 'register',
@@ -35,7 +35,7 @@ export const routes: Routes = [
     {
         path: 'app',
         component: Layout,
-        canActivate: [authGuard],
+        //canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
             { path: 'dashboard', component: Dashboard},

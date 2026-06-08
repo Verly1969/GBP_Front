@@ -1,1 +1,135 @@
-<p>profil works!</p>
+ <div class="h-full bg-gray-500
+                flex flex-col items-center pt-4 px-4">
+    <div class="bg-gray-100 rounded-2xl shadow-xl p-8 w-full max-w-xl border border-2 border-gray-500 opacity-95">
+
+        <!-- titre -->
+        <div class="text-center mb-8">
+            <h2 class="text-2x1 font-bold text-gray-800">Modification profil</h2>
+        </div>
+
+        <!-- Formulaire -->
+        <form class="space-y-5">
+
+            <div class="flex flex-row gap-5">
+                <!-- Firstname -->
+                <div class="w-[15rem]">
+                    <label for="firstname" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Votre prénom:
+                    </label>
+                    <input 
+                        id="firstname"
+                        type="text"
+                        formControlName="firstname"
+                        placeholder="Votre prénom ..."
+                        value="Monsieur"
+                        class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            transition duration-200 focus:ring-2 focus:ring-blue-500
+                            focus:border-transparent placeholder:text-gray-400
+                            border-gray-300 hover:border-gray-400"
+                    />
+                </div>
+
+                <!-- Lastname -->
+                <div class="grow">
+                    <label for="lastname" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Votre nom:
+                    </label>
+                    <input 
+                        id="lastname"
+                        type="text"
+                        placeholder="Votre nom de famille ..."
+                        value="Admin"
+                        formControlName="lastname"
+                        class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            transition duration-200 focus:ring-2 focus:ring-blue-500
+                            focus:border-transparent placeholder:text-gray-400
+                            border-gray-300 hover:border-gray-400"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-row gap-5">
+                <!-- Adresse -->
+                <div class="w-[40rem]">
+                    <label for="rue" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Adresse:
+                    </label>
+                    <input 
+                        id="street"
+                        type="text"
+                        placeholder="Votre rue / avenue / boulevard ..."
+                        formControlName="street"
+                        class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            transition duration-200 focus:ring-2 focus:ring-blue-500
+                            focus:border-transparent placeholder:text-gray-400
+                            border-gray-300 hover:border-gray-400"
+                    />
+                </div>
+
+                <!-- Numéro -->
+                <div class="grow">
+                    <label for="rue" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Numéro:
+                    </label>
+                    <input 
+                        id="number"
+                        type="text"
+                        placeholder="Numéro ..."
+                        formControlName="number"
+                        class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            transition duration-200 focus:ring-2 focus:ring-blue-500
+                            focus:border-transparent placeholder:text-gray-400
+                            border-gray-300 hover:border-gray-400"
+                    />
+                </div>
+            </div>
+
+            <div class="flex flex-row gap-5">
+                <!-- Adresse sup -->
+                <div class="w-[9rem]">
+                    <label for="rue" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Code postal:
+                    </label>
+                    <input 
+                        id="postcode"
+                        type="text"
+                        placeholder="Code postal ..."
+                        formControlName="postcode"
+                        class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            transition duration-200 focus:ring-2 focus:ring-blue-500
+                            focus:border-transparent placeholder:text-gray-400
+                            border-gray-300 hover:border-gray-400"
+                    />
+                </div>
+
+                <!-- Numéro -->
+                <div class="grow">
+                    <label for="rue" class="block text-sm font-medium text-gray-700 mb-1.5">
+                        Ville:
+                    </label>
+                    <input 
+                        id="city"
+                        type="text"
+                        placeholder="Ville ..."
+                        formControlName="city"
+                        class="w-full px-4 py-2.5 border rounded-xl text-sm outline-none
+                            transition duration-200 focus:ring-2 focus:ring-blue-500
+                            focus:border-transparent placeholder:text-gray-400
+                            border-gray-300 hover:border-gray-400"
+                    />
+                </div>
+            </div>
+        
+            <!-- Bouton de connexion -->
+            <button
+                type="submit"
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+                    hover:from-blue-700 hover:to-indigo-700 cursor-pointer
+                    disabled:opacity-50 disabled:cursor-not-allowed 
+                    text-white font-medium py-2.5 rounded-xl
+                    transition duration-200 text-sm mt-2 shadow-md">
+                Sauvegarder
+            </button>
+        </form>
+    </div>
+ </div>
