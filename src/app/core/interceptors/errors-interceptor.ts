@@ -7,6 +7,7 @@ import { toast } from 'ngx-sonner';
 export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
   
   const router = inject(Router);
+  const isLoginrequest = req.url.includes('/Auth/login');
 
   return next(req)
     .pipe(catchError((error: HttpErrorResponse) => {
@@ -15,18 +16,23 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
       switch(error.status) {
         case 0:
           // Pas de connexion réseau
-          message += "/nVeuillez vérifier votre connexion";
+          message = isLoginrequest
+            ? 'Serveur inaccessible'
+            : 'Impossible de contacter le serveur';
           router.navigate(['./accueil']);
           break;
 
         case 401:
           // Non-autorisé
-          message += "/nConnexion refusée";
+          message = isLoginrequest
+            ? 'Email ou mot de passe incorrect'
+            : 'Session expirée - reconnectez-vous';
+            if (!isLoginrequest) router.navigate(['/login']);
           break;
 
         case 500:
           // Erreur serveur
-          message += "/nServeur indisponible";
+          message = 'Erreur serveur';
           router.navigate(['./accueil']);
           break;
 

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Footer } from '../../../shared/components/footer/footer';
 import { toast } from 'ngx-sonner';
-import { Header } from "../../../shared/components/header/header";
+import { Header } from '../../../shared/components/header/header';
 
 @Component({
   selector: 'app-register',
@@ -55,10 +55,10 @@ export class Register {
         toast.success('Compte créé avec succès.');
         this.router.navigate(['login']);
       },
-      error: (err) => {
+      error: () => {
         this.isLoading.set(false);
-        this.errorMessage.set(err.error?.message ?? "Erreur lors de l'inscription");
-        toast.error(this.errorMessage());
+        // this.errorMessage.set(err.error?.message ?? "Erreur lors de l'inscription");
+        // toast.error(this.errorMessage());
       }
     })
   }

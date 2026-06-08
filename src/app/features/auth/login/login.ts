@@ -62,7 +62,7 @@ export class Login implements OnInit, OnDestroy {
       // Succès
       next: (response) => {
 
-        this.isLoading.set(true);
+        this.isLoading.set(false);
         
         if (response.twoFactorRequired){
           // 2FA requis - afficher le composant TwoFactor
@@ -74,10 +74,8 @@ export class Login implements OnInit, OnDestroy {
         }
       },
       // Erreur
-      error: (err) => {
+      error: () => {
         this.isLoading.set(false);
-        this.errorMessage.set(err.error?.message ?? 'Email ou mot de passe incorrect.');
-        toast.error(this.errorMessage());
       }
     })
 
