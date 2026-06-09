@@ -1,0 +1,107 @@
+<div class="h-full bg-gray-500
+                flex flex-col items-center pt-4 px-4">
+    <div class="bg-gray-100 rounded-2xl shadow-xl p-8 w-full max-w-6xl 
+                border border-2 border-gray-500 opacity-95 flex flex-col items-center">
+
+        <!-- titre -->
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Opérations sur comptes</h2>
+        </div>
+
+        <div class="flex flex-row items-center">
+            <!-- Barre de recherche --> 
+            <div class="text-center mb-8 flex flex-row bg-gray-300 rounded-2xl">
+                <div class="m-4">
+                    <label for="account" class="block text-xl p-4 font-medium text-gray-600">Comptes</label>
+                    <select name="account" id="account" class="text-center bg-blue-200 py-2 rounded-xl">
+                        <option>Votre choix</option>
+                        <option value="0">BE12 1234 1234 1234</option>
+                        <option value="1">BE43 4321 4321 4321</option>
+                        <option value="2">BE34 4321 1234 4312</option>
+                    </select>
+                </div>
+                <div class="m-4">
+                    <label for="year" class="block text-xl p-4 font-medium text-gray-600">Année</label>
+                    <select name="year" id="year" class="text-center">
+                        <option>Votre choix</option>
+                        <option value="0">2020</option>
+                        <option value="1">2021</option>
+                        <option value="2">2022</option>
+                        <option value="3">2023</option>
+                        <option value="4">2024</option>
+                        <option value="5">2025</option>
+                        <option value="6">2026</option>
+                    </select>
+                </div>
+                <div class="m-4">
+                    <label for="account" class="block text-xl p-4 font-medium text-gray-600">Mois</label>
+                    <select name="account" id="account" class="text-center">
+                        <option>Votre choix</option>
+                        <option value="0">Janvier</option>
+                        <option value="1">Février</option>
+                        <option value="2">Mars</option>
+                        <option value="3">Avril</option>
+                        <option value="4">Mai</option>
+                        <option value="5">Juin</option>
+                        <option value="6">Juillet</option>
+                        <option value="7">Août</option>
+                        <option value="8">Septembre</option>
+                        <option value="9">Octobre</option>
+                        <option value="10">Novembre</option>
+                        <option value="11">Décembre</option>
+                    </select>
+                </div>
+                <div class="m-4">
+                    <label for="category" class="block text-xl p-4 font-medium text-gray-600">Catégorie</label>
+                    <select name="category" id="category" class="text-center">
+                        <option>Votre choix</option>
+                        <option value="0">Immobilier</option>
+                        <option value="1">Véhicule</option>
+                        <option value="2">Générale</option>
+                        <option value="3">Divers</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Bouton nouvelle opération -->
+            <div class="flex items-center justify-center">
+                <button
+                    type="submit"
+                    class="w-full bg-gradient-to-r from-blue-600 to-indigo-600
+                        hover:from-blue-700 hover:to-indigo-700 cursor-pointer
+                        disabled:opacity-50 disabled:cursor-not-allowed 
+                        text-white font-medium py-2.5 px-4 mt-8 rounded-xl
+                        transition duration-200 text-sm mt-2 shadow-md">
+                    Ajouter une nouvelle opération
+                </button>
+            </div>
+        </div>
+
+        <!-- Tableau liste des opérations -->
+        <div>
+            <table class="table-auto border-separate rounded-xl border-spacing-4 border border-gray-500 bg-blue-200">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-300 px-4 py-2">Date</th>
+                        <th class="border border-gray-300 px-4 py-2">Compte débit</th>
+                        <th class="border border-gray-300 px-4 py-2">Compte crédit</th>
+                        <th class="border border-gray-300 px-4 py-2">Catégorie</th>
+                        <th class="border border-gray-300 px-4 py-2">Montant</th>
+                        <th class="border border-gray-300 px-4 py-2" colspan="2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="bg-gray-200 hover:bg-gray-500">
+                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed text-center">09/06/2026</td>
+                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed text-center">BE12 1234 1234 1234</td>
+                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed text-center">BE96 1234 4321 4321</td>
+                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed text-center">Immobilier</td>
+                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed text-right">1.523,32 €</td>
+                        <td class="border border-gray-300 px-4 py-2 cursor-pointer" title="____Modifier">✒️</td>
+                        <td class="border border-gray-300 px-4 py-2 cursor-pointer" title="____Supprimer">🗑️</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

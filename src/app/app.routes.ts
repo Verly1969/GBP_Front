@@ -8,6 +8,7 @@ import { Profil } from './features/pages/profil/profil';
 import { Email } from './features/pages/email/email';
 import { Password } from './features/pages/password/password';
 import { Comptes } from './features/pages/comptes/comptes';
+import { Operations } from './features/pages/operations/operations';
 
 export const routes: Routes = [
     {   path: '',
@@ -43,7 +44,8 @@ export const routes: Routes = [
             { path: 'profil', component: Profil },
             { path: 'email', component: Email },
             { path: 'password', component: Password },
-            { path: 'account', component: Comptes }
+            { path: 'account', component: Comptes },
+            { path: 'operations', component: Operations}
         ]
     },
     {   path: '**', redirectTo: 'accueil' }
