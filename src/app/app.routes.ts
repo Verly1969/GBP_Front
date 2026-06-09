@@ -7,6 +7,7 @@ import { Dashboard } from './features/pages/dashboard/dashboard';
 import { Profil } from './features/pages/profil/profil';
 import { Email } from './features/pages/email/email';
 import { Password } from './features/pages/password/password';
+import { Comptes } from './features/pages/comptes/comptes';
 
 export const routes: Routes = [
     {   path: '',
@@ -24,7 +25,7 @@ export const routes: Routes = [
         loadComponent: () =>
             import('./features/auth/login/login')
                 .then(l => l.Login),
-        //canActivate: [guestGuard]
+        canActivate: [guestGuard]
     },
     {
         path: 'register',
@@ -35,13 +36,14 @@ export const routes: Routes = [
     {
         path: 'app',
         component: Layout,
-        //canActivate: [authGuard],
+        canActivate: [authGuard],
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-            { path: 'dashboard', component: Dashboard},
-            { path: 'profil', component: Profil},
-            { path: 'email', component: Email},
-            { path: 'password', component: Password}
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: Dashboard },
+            { path: 'profil', component: Profil },
+            { path: 'email', component: Email },
+            { path: 'password', component: Password },
+            { path: 'account', component: Comptes }
         ]
     },
     {   path: '**', redirectTo: 'accueil' }
