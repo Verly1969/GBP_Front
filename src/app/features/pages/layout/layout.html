@@ -1,12 +1,12 @@
-<div class="flex min-h-100vh bg-gray-500">
+<app-header />
 
-  <app-header />
-  <!-- Sidebar -->
-  <app-sidebar />
-
-  <!-- Contenu principal -->
-  <main class="flex min-h-[calc(100vh-76px)] overflow-y-auto">
-      <router-outlet />
-  </main>
-
-</div>
+<!-- Contenu principal -->
+<main class="flex flex-row items-center min-h-[calc(100vh-76px)] bg-gray-500">
+  <div>
+    <!-- Sidebar -->
+    <app-sidebar />
+  </div>
+  <div class="flex justify-center flex-grow x-full">
+    <router-outlet />
+  </div>
+</main>
