@@ -1,13 +1,12 @@
-<app-header />
+<div class="flex min-h-100vh bg-gray-500">
 
-<div class="flex min-h-[calc(100vh-76px)] bg-gray-500">
-
+  <app-header />
   <!-- Sidebar -->
   <app-sidebar />
 
   <!-- Contenu principal -->
-    <main class="flex-1 overflow-y-auto">
-        <router-outlet />
-    </main>
+  <main class="flex min-h-[calc(100vh-76px)] overflow-y-auto">
+      <router-outlet />
+  </main>
 
 </div>
