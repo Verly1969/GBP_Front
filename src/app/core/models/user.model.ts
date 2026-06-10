@@ -11,3 +11,10 @@ export interface UserPasswordUpdate {
     oldPassword: string;
     newPassword: string;
 }
+export interface UserResponse {
+    firstName: string;
+    lastName:  string;
+    email:     string;
+    role:      string;
+    status:    string;
+}

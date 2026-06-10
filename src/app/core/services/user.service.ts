@@ -1,21 +1,21 @@
 import { Injectable, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { UserUpdate, UserEmailUpdate, UserPasswordUpdate } from "../models/user.model";
+import { UserResponse } from "../models/user.model";
 
 @Injectable({ providedIn: 'root'})
 export class UserService {
 
     private readonly http = inject(HttpClient);
-    private readonly apiUrl = '/api';
+    private readonly apiUrl = '/api/user';
 
-    // Récupérer le profil sur base de l'email
-    getProfil(email: string) {
-        return this.http.get<UserUpdate>(`
-            ${this.apiUrl}/user/profil?email=${email}`);
+    getAll() {
+        return this.http.get<UserResponse[]>(this.apiUrl);
     }
 
-    // Mettre à jour le profil
-    // updateProfil(data: UserUpdate) {
-    //     return this.http.put<User>(``);
-    // }
+    changeStatus(email: string) {
+        return this.http.patch(
+            `${this.apiUrl}/${email}/status`,
+            {} // body vide - pas de données à envoyer
+        )
+    }
 }

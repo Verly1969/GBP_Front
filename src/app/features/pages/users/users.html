@@ -1,3 +1,16 @@
+<!-- Popup de confirmation -->
+@if (showConfirm()) {
+    <app-comfirm-dialog
+        title="Modifier le statut"
+        [message]="confirmMessage()"
+        confirmLabel="Confirmer"
+        cancelLabel="Annuler"
+        type="warning"
+        (confirmed)="onConfirmed()"
+        (cancelled)="onCancelled()">
+    </app-comfirm-dialog>
+}
+
 <div class="h-[calc(100vh-76px)] bg-gray-500
                 flex flex-col items-center pt-4 px-4">
     <div class="bg-gray-100 rounded-2xl shadow-xl p-8 w-full max-w-4xl 
@@ -8,34 +21,90 @@
             <h2 class="text-2xl font-bold text-gray-800">Liste des utilisateurs</h2>
         </div>
 
-        <!-- Tableau - Liste des comptes -->
-        <div>
-            <table class="table-auto text-center border-separate rounded-xl 
-                          border-spacing-1 p-4 border border-gray-500 bg-blue-200">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border border-gray-300 px-4 py-2">Prénom</th>
-                        <th class="border border-gray-300 px-4 py-2">Nom</th>
-                        <th class="border border-gray-300 px-4 py-2">Email</th>
-                        <th class="border border-gray-300 px-4 py-2">Role</th>
-                        <th class="border border-gray-300 px-4 py-2">Actif</th>
-                        <th class="border border-gray-300 px-4 py-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="bg-gray-200 hover:bg-gray-500">
-                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">Eddy</td>
-                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">VERLY</td>
-                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">eddyverly@icloud.com</td>
-                        <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">User</td>
-                        <td class="border border-gray-300 bg-green-200 px-4 py-2 cursor-not-allowed">
-                            <input type="checkbox" checked disabled/>
-                        </td>
-                        <td class="border border-gray-300 bg-blue-500 px-4 py-2 cursor-pointer" title="____Modifier">✒️</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <!-- Erreur -->
+        @if (errorMessage()) {
+            <div class="bg-red-50 border border-red-200 text-red-600
+                        px-4 py-3 rounded-lg mb-6 text-sm">
+                {{ errorMessage() }}
+            </div>
+        }
+
+        <!-- Chargement -->
+        @if (isLoading()) {
+            <div class="flex justify-center items-center py-20">
+                <svg class="animate-spin h-8 w-8 text-blue-600"
+                    viewBox="0 0 24 24" fill="none">
+                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                        stroke="currentColor" stroke-width="4" />
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+            </div>
+        }
+        @else {
+
+            <!-- Tableau - Liste des comptes -->
+            <div>
+                <table class="table-auto text-center border-separate rounded-xl 
+                            border-spacing-1 p-4 border border-gray-500 bg-blue-200">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border border-gray-300 px-4 py-2">Prénom</th>
+                            <th class="border border-gray-300 px-4 py-2">Nom</th>
+                            <th class="border border-gray-300 px-4 py-2">Email</th>
+                            <th class="border border-gray-300 px-4 py-2">Role</th>
+                            <th class="border border-gray-300 px-4 py-2">Actif</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (users().length === 0) {
+                            <tr>
+                                <td colspan="5" class="text-center py-12 text-gray-400 text-sm">
+                                    Aucun utilisateur trouvé.
+                                </td>
+                            </tr>
+                        }
+
+                        @for (user of users(); track user.email) {
+                            <tr class="bg-gray-200 hover:bg-gray-500">
+                                <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">{{ user.firstName }}</td>
+                                <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">{{ user.lastName }}</td>
+                                <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">{{ user.email }}</td>
+                                <td class="border border-gray-300 px-4 py-2 cursor-not-allowed">
+                                    <span class="px-2 py-1 rounded-lg text-xs font-medium
+                                                 {{user.role === 'Admin'
+                                                    ? 'bg-purple-100 text-purple-700'
+                                                    : 'bg-blue-100 text-blue-700'}}">
+                                        {{ user.role }}
+                                    </span>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 cursor-pointer">
+                                    <button
+                                        (click)="openConfirm(user.email, user.status)"
+                                        class="flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer
+                                               transition duration-200 mx-auto
+                                               {{ user.status === 'Active'
+                                                    ? 'bg-green-100 hover:bg-green-200'
+                                                    : 'bg-red-100 hover:bg-red-200' }}">
+                                        <span class="px-2 py-1 rounded-lg text-xs font-medium
+                                                    {{user.status === 'Active'
+                                                        ? 'bg-green-100 text-green-700'
+                                                        : 'bg-red-100 text-red-700'}}">
+                                            {{ user.status === 'Active' ? 'Actif' : 'Inactif '}}
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Compteur -->
+            <p class="text-gray-400 text-xs mt-4 text-right">
+                {{ users().length }} utilisateur(s) trouvé(s)
+            </p>
+        }
     </div>
 </div>
 
