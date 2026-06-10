@@ -67,8 +67,16 @@ export class SidebarService {
     {
       label: 'Réglages',
       icon: '⚙️',
-      route: '/app/admin/reglages',
-      roles: ['Admin']
+      route: '',
+      roles: ['Admin'],
+      children: [
+        {
+          label: 'Catégorie',
+          icon: '📚',
+          route: '/app/admin/category',
+          roles: ['Admin']
+        }
+      ]
     }
   ]
 

@@ -8,6 +8,8 @@ import { Email } from './features/pages/email/email';
 import { Password } from './features/pages/password/password';
 import { Comptes } from './features/pages/comptes/comptes';
 import { Operations } from './features/pages/operations/operations';
+import { Users } from './features/pages/users/users';
+import { Category } from './features/pages/category/category';
 
 export const routes: Routes = [
     {   path: '',
@@ -44,7 +46,9 @@ export const routes: Routes = [
             { path: 'email', component: Email },
             { path: 'password', component: Password },
             { path: 'account', component: Comptes },
-            { path: 'operations', component: Operations}
+            { path: 'operations', component: Operations},
+            { path: 'admin/users', component: Users},
+            { path: 'admin/category', component: Category}
         ]
     },
     {   path: '**', redirectTo: 'accueil' }
