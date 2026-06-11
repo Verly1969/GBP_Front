@@ -75,6 +75,12 @@ export class SidebarService {
           icon: '📚',
           route: '/app/admin/category',
           roles: ['Admin']
+        },
+        {
+          label: 'Types comptes',
+          icon: '💸',
+          route: '/app/admin/account-types',
+          roles: ['Admin']
         }
       ]
     }

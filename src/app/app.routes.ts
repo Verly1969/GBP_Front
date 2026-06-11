@@ -10,6 +10,7 @@ import { Comptes } from './features/pages/comptes/comptes';
 import { Operations } from './features/pages/operations/operations';
 import { Users } from './features/pages/users/users';
 import { Category } from './features/pages/category/category';
+import { AccountTypes } from './features/pages/account-types/account-types';
 
 export const routes: Routes = [
     {   path: '',
@@ -48,7 +49,8 @@ export const routes: Routes = [
             { path: 'account', component: Comptes },
             { path: 'operations', component: Operations},
             { path: 'admin/users', component: Users},
-            { path: 'admin/category', component: Category}
+            { path: 'admin/category', component: Category},
+            { path: 'admin/account-types', component: AccountTypes}
         ]
     },
     {   path: '**', redirectTo: 'accueil' }
