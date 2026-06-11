@@ -25,9 +25,9 @@ export const errorsInterceptor: HttpInterceptorFn = (req, next) => {
         case 401:
           // Non-autorisé
           message = isLoginrequest
-            ? 'Email ou mot de passe incorrect'
+            ? 'Entrée interdite - Contactez l\'administrateur'
             : 'Session expirée - reconnectez-vous';
-            if (!isLoginrequest) router.navigate(['/login']);
+            router.navigate(['./accueil']);
           break;
 
         case 500:
