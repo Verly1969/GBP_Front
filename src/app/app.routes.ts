@@ -11,6 +11,7 @@ import { Operations } from './features/pages/operations/operations';
 import { Users } from './features/pages/users/users';
 import { Category } from './features/pages/category/category';
 import { AccountTypes } from './features/pages/account-types/account-types';
+import { Account } from './features/pages/account/account';
 
 export const routes: Routes = [
     {   path: '',
@@ -46,7 +47,7 @@ export const routes: Routes = [
             { path: 'profil', component: Profil },
             { path: 'email', component: Email },
             { path: 'password', component: Password },
-            { path: 'account', component: Comptes },
+            { path: 'account', component: Account },
             { path: 'operations', component: Operations},
             { path: 'admin/users', component: Users},
             { path: 'admin/category', component: Category},
