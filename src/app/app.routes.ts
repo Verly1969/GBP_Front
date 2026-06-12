@@ -2,16 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
 import { Layout } from './features/pages/layout/layout';
-import { Dashboard } from './features/pages/dashboard/dashboard';
-import { Profil } from './features/pages/profil/profil';
-import { Email } from './features/pages/email/email';
-import { Password } from './features/pages/password/password';
-import { Comptes } from './features/pages/comptes/comptes';
-import { Operations } from './features/pages/operations/operations';
-import { Users } from './features/pages/users/users';
-import { Category } from './features/pages/category/category';
-import { AccountTypes } from './features/pages/account-types/account-types';
-import { Account } from './features/pages/account/account';
 
 export const routes: Routes = [
     {   path: '',
@@ -43,15 +33,60 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-            { path: 'dashboard', component: Dashboard },
-            { path: 'profil', component: Profil },
-            { path: 'email', component: Email },
-            { path: 'password', component: Password },
-            { path: 'account', component: Account },
-            { path: 'operations', component: Operations},
-            { path: 'admin/users', component: Users},
-            { path: 'admin/category', component: Category},
-            { path: 'admin/account-types', component: AccountTypes}
+            { 
+                path: 'dashboard',
+                loadComponent: () =>
+                    import('./features/pages/dashboard/dashboard')
+                        .then(d => d.Dashboard) 
+            },
+            { 
+                path: 'profil',
+                loadComponent: () =>
+                    import('./features/pages/profil/profil')
+                        .then(p => p.Profil) 
+            },
+            { 
+                path: 'email',
+                loadComponent: () =>
+                    import('./features/pages/email/email')
+                        .then(e => e.Email)
+            },
+            { 
+                path: 'password', 
+                loadComponent: () =>
+                    import('./features/pages/password/password')
+                        .then(p => p.Password) 
+            },
+            { 
+                path: 'account', 
+                loadComponent: () =>
+                    import('./features/pages/account/account')
+                        .then(a => a.Account) 
+            },
+            { 
+                path: 'operations', 
+                loadComponent: () =>
+                    import('./features/pages/operations/operations')
+                        .then(o => o.Operations)
+            },
+            { 
+                path: 'admin/users', 
+                loadComponent: () =>
+                    import('./features/pages/users/users')
+                        .then(u => u.Users)
+            },
+            { 
+                path: 'admin/category', 
+                loadComponent: () =>
+                    import('./features/pages/category/category')
+                        .then(c => c.Category)
+            },
+            { 
+                path: 'admin/account-types', 
+                loadComponent: () =>
+                    import('./features/pages/account-types/account-types')
+                        .then(a => a.AccountTypes)
+            }
         ]
     },
     {   path: '**', redirectTo: 'accueil' }
