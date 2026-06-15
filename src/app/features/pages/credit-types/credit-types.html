@@ -10,7 +10,7 @@
     (cancelled)="onCancelled()">
     </app-comfirm-dialog>
 }
-<div class="h-100vh bg-gray-500
+<div class="h-[calc(100vh-76px)] bg-gray-500
             flex flex-col items-center pt-4 px-4">
     <div class="bg-gray-100 rounded-2xl shadow-xl p-8 w-full max-w-3xl
                 border border-2 border-gray-500 opacity-95">
@@ -109,7 +109,7 @@
                                    disabled:opacity-50 disabled:cursor-not-allowed
                                    text-white font-medium py-2.5 rounded-xl
                                    transition duration-200 text-sm cursor-pointer">
-                            {{ editingId() ? 'Modifier' : 'créer'}}
+                            {{ editingId() ? 'Modifier' : 'Créer' }}
                         </button>
                     </div>
                 </form>
@@ -158,16 +158,16 @@
           </thead>
           <tbody class="divide-y divide-gray-100 bg-white">
 
-            @if (creditType().length === 0) {
+            @if (creditTypes().length === 0) {
               <tr>
                 <td colspan="3"
                     class="text-center py-12 text-gray-400 text-sm">
-                  Aucun type de compte trouvé.
+                  Aucun type de crédit trouvé.
                 </td>
               </tr>
             }
 
-            @for (creditType of creditType(); track creditType.id) {
+            @for (creditType of creditTypes(); track creditType.id) {
               <tr class="hover:bg-gray-50 transition duration-150">
 
                 <td class="px-6 py-4 text-sm font-medium text-gray-800">
@@ -209,7 +209,7 @@
 
       <!-- Compteur -->
       <p class="text-gray-400 text-xs mt-4 text-right">
-        {{ creditType().length }} type(s) trouvé(s)
+        {{ creditTypes().length }} type(s) trouvé(s)
       </p>
 
     }

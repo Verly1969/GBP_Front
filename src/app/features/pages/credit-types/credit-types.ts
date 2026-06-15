@@ -23,7 +23,7 @@ export class CreditTypes implements OnInit {
   errorMessage = signal('');
   isLoading    = signal(true);
   showForm     = signal(false);
-  creditType   = signal<CreditTypeResponse[]>([]);
+  creditTypes  = signal<CreditTypeResponse[]>([]);
   editingId    = signal<number | null>(null);
 
   showConfirm    = signal(false);
@@ -36,18 +36,18 @@ export class CreditTypes implements OnInit {
   })
 
   ngOnInit(): void {
-    this.loadAccountTypes();
+    this.loadCreditTypes();
   }
 
   // Charger la liste
-  loadAccountTypes(): void {
+  loadCreditTypes(): void {
 
     this.isLoading.set(true);
     this.errorMessage.set('');
 
     this.creditService.getAll().subscribe({
       next: (data) => {
-        this.creditType.set(data);
+        this.creditTypes.set(data);
         this.isLoading.set(false);
       },
       error: (err) => {
@@ -99,7 +99,7 @@ export class CreditTypes implements OnInit {
       next: () => {
         this.showForm.set(false);
         this.form.reset();
-        this.loadAccountTypes();
+        this.loadCreditTypes();
       },
       error: (err) => {
         this.errorMessage.set(
@@ -139,7 +139,7 @@ export class CreditTypes implements OnInit {
     this.creditService.delete(id).subscribe({
       next: () => {
         this.selectedId.set(null);
-        this.loadAccountTypes();
+        this.loadCreditTypes();
       },
       error: (err) => {
         this.errorMessage.set(
