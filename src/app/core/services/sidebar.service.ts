@@ -81,6 +81,12 @@ export class SidebarService {
           icon: '💸',
           route: '/app/admin/account-types',
           roles: ['Admin']
+        },
+        {
+          label: 'Types crédits',
+          icon: '💸',
+          route: '/app/admin/credit-types',
+          roles: ['Admin']
         }
       ]
     }

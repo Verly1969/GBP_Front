@@ -86,6 +86,12 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./features/pages/account-types/account-types')
                         .then(a => a.AccountTypes)
+            },
+            {
+                path: 'admin/credit-types',
+                loadComponent: () =>
+                    import('./features/pages/credit-types/credit-types')
+                        .then(c => c.CreditTypes)
             }
         ]
     },
