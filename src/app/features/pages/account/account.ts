@@ -1,8 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AccountService } from '../../../core/services/account.service';
-import { AccountRequest, AccountResponse } from '../../../core/models/account.model';
+import { AccountResponse } from '../../../core/models/account.model';
 import { AccountTypeService } from '../../../core/services/account-type.service';
 import { AccountTypeResponse } from '../../../core/models/account-type.model';
 import { ComfirmDialog } from '../../../shared/components/comfirm-dialog/comfirm-dialog';
@@ -20,6 +21,7 @@ import { ComfirmDialog } from '../../../shared/components/comfirm-dialog/comfirm
 export class Account implements OnInit {
 
   private readonly fb                 = inject(FormBuilder);
+  private readonly router             = inject(Router);
   private readonly accountService     = inject(AccountService);
   private readonly accountTypeService = inject(AccountTypeService);
 
@@ -142,6 +144,11 @@ export class Account implements OnInit {
       `Etes-vous sûr de vouloir supprimer le compte "${acccount.label}" ?`
     );
     this.showConfirm.set(true);
+  }
+
+  // Ouvrir page de crédit
+  openCredit(accountId: string): void {
+    this.router.navigate(['/app/account', accountId, 'credit']);
   }
 
   // Confirmer suppression
