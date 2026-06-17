@@ -1,1 +1,281 @@
-<p>credit works!</p>
+<!-- Popup confirmation suppression -->
+@if (showConfirm()) {
+  <app-comfirm-dialog
+    title="Supprimer le crédit"
+    [message]="confirmMessage()"
+    confirmLabel="Supprimer"
+    cancelLabel="Annuler"
+    type="danger"
+    (confirmed)="onConfirmed()"
+    (cancelled)="onCanceled()">
+  </app-comfirm-dialog>
+}
+
+<div class="h-[calc(100vh-76px)] bg-gray-500
+            flex flex-col items-center pt-4 px-4">
+  <div class="bg-gray-100 rounded-2xl shadow-xl p-8 w-full max-w-4xl
+              border border-2 border-gray-500 opacity-95">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800">Mes crédits</h2>
+        <p class="text-gray-500 text-sm mt-1">
+          Gérez vos crédits
+        </p>
+      </div>
+
+      <!-- Bouton nouveau -->
+      @if (!showForm()) {
+        <button
+          (click)="openCreate()"
+          class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700
+                 text-white text-sm font-medium px-4 py-2 rounded-xl
+                 transition duration-200 cursor-pointer">
+          <span>+</span>
+          Nouveau crédit
+        </button>
+      }
+    </div>
+
+    <!-- Formulaire création / modification -->
+    @if (showForm()) {
+      <div class="bg-white rounded-xl border border-gray-200
+                  p-6 mb-6 shadow-sm">
+
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+          {{ formTitle }}
+        </h3>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+
+          <!-- Montant -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+              Montant
+            </label>
+            <input
+              type="number"
+              formControlName="amount"
+              placeholder="Ex: 1.123,00"
+              class="w-full px-4 py-2.5 border rounded-xl text-sm
+                     outline-none transition duration-200
+                     focus:ring-2 focus:ring-blue-500
+                     focus:border-transparent
+                     border-gray-300 hover:border-gray-400"/>
+            @if (amountErrors) {
+              <p class="text-red-500 text-xs mt-1.5">{{ amountErrors }}</p>
+            }
+          </div>
+
+          <!-- Taux d'intéret -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+              Taux d'intérêt en %
+            </label>
+            <input
+              type="number"
+              formControlName="interestRate"
+              placeholder="Ex: 1,02"
+              class="w-full px-4 py-2.5 border rounded-xl text-sm
+                     outline-none transition duration-200
+                     focus:ring-2 focus:ring-blue-500
+                     focus:border-transparent
+                     border-gray-300 hover:border-gray-400"/>
+            @if (interestErrors) {
+                <p class="text-red-500 text-xs mt-1.5">{{ interestErrors }}</p>
+            }
+          </div>
+
+            <!-- Durée en mois -->
+            <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                Durée (mois)
+            </label>
+            <input
+                type="number"
+                formControlName="durationMonths"
+                placeholder="Ex: 24"
+                class="w-full px-4 py-2.5 border rounded-xl text-sm
+                    outline-none transition duration-200
+                    focus:ring-2 focus:ring-blue-500
+                    focus:border-transparent
+                    border-gray-300 hover:border-gray-400"/>
+            @if (durationErrors) {
+                <p class="text-red-500 text-xs mt-1.5">{{ durationErrors }}</p>
+            }
+            </div>
+
+            <!-- Date de début -->
+            <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                Date de début
+            </label>
+            <input
+                type="date"
+                formControlName="startDate"
+                class="w-full px-4 py-2.5 border rounded-xl text-sm
+                    outline-none transition duration-200
+                    focus:ring-2 focus:ring-blue-500
+                    focus:border-transparent
+                    border-gray-300 hover:border-gray-400"/>
+            </div>
+
+            <!-- Raison -->
+            <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+                Raison
+                <span class="text-gray-400 font-normal">(optionnelle)</span>
+            </label>
+            <textarea
+                formControlName="raison"
+                placeholder="Raison du crédit..."
+                rows="3"
+                class="w-full px-4 py-2.5 border rounded-xl text-sm
+                    outline-none transition duration-200
+                    focus:ring-2 focus:ring-blue-500
+                    focus:border-transparent resize-none
+                    border-gray-300 hover:border-gray-400">
+            </textarea>
+            </div>
+
+          <!-- Type de crédit -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1.5">
+              Type de crédit
+            </label>
+            <select
+              formControlName="creditTypeId"
+              class="w-full px-4 py-2.5 border rounded-xl text-sm
+                     outline-none transition duration-200
+                     focus:ring-2 focus:ring-blue-500
+                     focus:border-transparent
+                     border-gray-300 hover:border-gray-400">
+              <option [value]="0" disabled>
+                Sélectionnez un type...
+              </option>
+              @for (type of creditTypes(); track type.id) {
+                <option [value]="type.id">{{ type.name }}</option>
+              }
+            </select>
+            @if (creditTypeErrors) {
+              <p class="text-red-500 text-xs mt-1.5">
+                {{ creditTypeErrors }}
+              </p>
+            }
+          </div>
+
+          <!-- Boutons -->
+          <div class="flex gap-3 pt-2">
+            <button
+              type="button"
+              (click)="onCancel()"
+              class="flex-1 bg-gray-100 hover:bg-gray-200
+                     text-gray-700 font-medium py-2.5 rounded-xl
+                     transition duration-200 text-sm">
+              Annuler
+            </button>
+            <button
+              type="submit"
+              [disabled]="form.invalid"
+              class="flex-1 bg-blue-600 hover:bg-blue-700
+                     disabled:opacity-50 disabled:cursor-not-allowed
+                     text-white font-medium py-2.5 rounded-xl
+                     transition duration-200 text-sm">
+              {{ editingId() ? 'Modifier' : 'Créer' }}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    }
+
+    <!-- Erreur -->
+    @if (errorMessage()) {
+      <div class="bg-red-50 border border-red-200 text-red-600
+                  px-4 py-3 rounded-lg mb-6 text-sm">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    <!-- Chargement -->
+    @if (isLoading()) {
+      <div class="flex justify-center items-center py-20">
+        <svg class="animate-spin h-8 w-8 text-blue-600"
+             viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10"
+                  stroke="currentColor" stroke-width="4"/>
+          <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8v8H4z"/>
+        </svg>
+      </div>
+    } @else {
+
+      <!-- Liste vide -->
+      @if (credits().length === 0) {
+        <div class="text-center py-12">
+          <p class="text-gray-400 text-sm">
+            Aucun crédit trouvé.
+          </p>
+          <p class="text-gray-400 text-xs mt-1">
+            Créez votre premier crédit en cliquant sur "Nouveau crédit".
+          </p>
+        </div>
+      } @else {
+
+        <!-- Cartes des crédits -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          @for (credit of credits(); track credit.id) {
+            <div class="bg-white rounded-xl border border-gray-200
+                        p-5 shadow-sm hover:shadow-md
+                        transition duration-200">
+
+              <!-- Header carte -->
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <h3 class="font-semibold text-gray-800">
+                    Montant: {{ credit.amount }} €.
+                  </h3>
+                  <p class="text-gray-400 text-xs mt-0.5">
+                    Durée: {{ credit.durationMonths }} mois 
+                    au taux de {{ credit.interestRate }} %.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="flex gap-2 mb-4">
+                <button
+                  (click)="openEdit(credit)"
+                  class="flex-1 bg-blue-50 hover:bg-blue-100
+                         text-blue-600 text-xs font-medium
+                         py-2 rounded-lg transition duration-200 cursor-pointer">
+                  ✒️ Modifier
+                </button>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  (click)="openDelete(credit)"
+                  class="flex-1 bg-red-50 hover:bg-red-100
+                         text-red-600 text-xs font-medium
+                         py-2 rounded-lg transition duration-200 cursor-pointer">
+                  🗑️ Supprimer
+                </button>
+              </div>
+
+            </div>
+          }
+
+        </div>
+
+        <!-- Compteur -->
+        <p class="text-gray-400 text-xs mt-4 text-right">
+          {{ credits().length }} credit(s) trouvé(s)
+        </p>
+
+      }
+    }
+  </div>
+</div>
+

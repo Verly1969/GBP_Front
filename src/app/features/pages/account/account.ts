@@ -7,6 +7,7 @@ import { AccountResponse } from '../../../core/models/account.model';
 import { AccountTypeService } from '../../../core/services/account-type.service';
 import { AccountTypeResponse } from '../../../core/models/account-type.model';
 import { ComfirmDialog } from '../../../shared/components/comfirm-dialog/comfirm-dialog';
+import { toast } from 'ngx-sonner';
 
 @Component({
   selector: 'app-account',
@@ -64,6 +65,7 @@ export class Account implements OnInit {
           err.errors?.message ?? 'Erreur lors du chargement des comptes.'
         );
         this.isLoading.set(false);
+        toast.error(this.errorMessage())
       }
     })
   }
@@ -119,11 +121,13 @@ export class Account implements OnInit {
         this.showForm.set(false);
         this.form.reset();
         this.loadAccounts();
+        toast.success('Opération réussie');
       },
       error: (err) => {
         this.errorMessage.set(
           err.errors?.message ?? 'Erreur lors de la sauvegarde.'
         );
+        toast.error(this.errorMessage());
       }
     })
   }
