@@ -51,12 +51,6 @@ export class SidebarService {
       roles: ['Admin', 'User']
     },
     {
-      label: 'Crédits',
-      icon: '💳',
-      route: '/app/credit',
-      roles: ['Admin', 'User']
-    },
-    {
       label: 'Opérations',
       icon: '🛒',
       route: '/app/operations',
