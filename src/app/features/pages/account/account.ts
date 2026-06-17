@@ -137,11 +137,11 @@ export class Account implements OnInit {
   }
 
   // Ouvrir popup de suppression
-  openDelete(acccount: AccountResponse): void {
+  openDelete(account: AccountResponse): void {
 
-    this.selectedId.set(acccount.id);
+    this.selectedId.set(account.id);
     this.confirmMessage.set(
-      `Etes-vous sûr de vouloir supprimer le compte "${acccount.label}" ?`
+      `Etes-vous sûr de vouloir supprimer le compte "${account.label}" ?`
     );
     this.showConfirm.set(true);
   }
